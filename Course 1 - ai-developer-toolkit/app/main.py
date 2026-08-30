@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 
 from app.schemas.generation import GenerationRequest, GenerationResponse
+from app.schemas.summarization import SummarizationRequest, SummarizationResponse
 from app.services.ai_service import generate_text
+from app.services.summarization_service import summarize_text
 
 
 app = FastAPI(
@@ -31,3 +33,10 @@ def generate(request: GenerationRequest):
     result = generate_text(request.prompt)
 
     return GenerationResponse(result=result)
+
+
+@app.post("/summarize", response_model=SummarizationResponse)
+def summarize(request: SummarizationRequest):
+    result = summarize_text(request.text)
+
+    return SummarizationResponse(summary=result)
