@@ -1,8 +1,10 @@
 from fastapi import FastAPI
 
+from app.schemas.classification import ClassificationRequest, ClassificationResponse
 from app.schemas.generation import GenerationRequest, GenerationResponse
 from app.schemas.summarization import SummarizationRequest, SummarizationResponse
 from app.services.ai_service import generate_text
+from app.services.classification_service import classify_text
 from app.services.summarization_service import summarize_text
 
 
@@ -40,3 +42,10 @@ def summarize(request: SummarizationRequest):
     result = summarize_text(request.text)
 
     return SummarizationResponse(summary=result)
+
+
+@app.post("/classify", response_model=ClassificationResponse)
+def classify(request: ClassificationRequest):
+    result = classify_text(request.text)
+
+    return ClassificationResponse(category=result)
