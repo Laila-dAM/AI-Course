@@ -1,4 +1,5 @@
 from app.config.settings import AI_PROVIDER
+from app.providers import mock_provider
 
 
 def generate_text(prompt: str) -> str:
@@ -7,6 +8,6 @@ def generate_text(prompt: str) -> str:
     """
 
     if AI_PROVIDER == "mock":
-        return f"Mock AI response for: {prompt}"
+        return mock_provider.generate(prompt)
 
     raise ValueError(f"Unsupported AI provider: {AI_PROVIDER}")
