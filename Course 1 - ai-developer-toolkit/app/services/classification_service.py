@@ -1,29 +1,16 @@
+from app.config.classification import NEGATIVE_WORDS, POSITIVE_WORDS
+
+
 def classify_text(text: str) -> str:
     text_lower = text.lower()
 
-    positive_words = [
-        "love",
-        "great",
-        "excellent",
-        "good",
-        "amazing",
-        "fast",
-        "easy",
-    ]
+    positive_score = sum(
+        word in text_lower for word in POSITIVE_WORDS
+    )
 
-    negative_words = [
-        "hate",
-        "bad",
-        "terrible",
-        "awful",
-        "slow",
-        "difficult",
-        "bug",
-        "error",
-    ]
-
-    positive_score = sum(word in text_lower for word in positive_words)
-    negative_score = sum(word in text_lower for word in negative_words)
+    negative_score = sum(
+        word in text_lower for word in NEGATIVE_WORDS
+    )
 
     if positive_score > negative_score:
         return "positive"
