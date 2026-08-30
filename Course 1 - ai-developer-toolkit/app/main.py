@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 
+from app.config.settings import APP_NAME, APP_DESCRIPTION, APP_VERSION
 from app.schemas.classification import ClassificationRequest, ClassificationResponse
 from app.schemas.extraction import ExtractionRequest, ExtractionResponse
 from app.schemas.generation import GenerationRequest, GenerationResponse
@@ -11,9 +12,9 @@ from app.services.summarization_service import summarize_text
 
 
 app = FastAPI(
-    title="AI Developer Toolkit",
-    description="AI-powered developer toolkit",
-    version="1.0.0"
+    title=APP_NAME,
+    description=APP_DESCRIPTION,
+    version=APP_VERSION
 )
 
 
