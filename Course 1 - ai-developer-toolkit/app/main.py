@@ -1,10 +1,12 @@
 from fastapi import FastAPI
 
 from app.schemas.classification import ClassificationRequest, ClassificationResponse
+from app.schemas.extraction import ExtractionRequest, ExtractionResponse
 from app.schemas.generation import GenerationRequest, GenerationResponse
 from app.schemas.summarization import SummarizationRequest, SummarizationResponse
 from app.services.ai_service import generate_text
 from app.services.classification_service import classify_text
+from app.services.extraction_service import extract_information
 from app.services.summarization_service import summarize_text
 
 
@@ -49,3 +51,10 @@ def classify(request: ClassificationRequest):
     result = classify_text(request.text)
 
     return ClassificationResponse(category=result)
+
+
+@app.post("/extract", response_model=ExtractionResponse)
+def extract(request: ExtractionRequest):
+    result = extract_information(request.text)
+
+    return ExtractionResponse(information=result)
