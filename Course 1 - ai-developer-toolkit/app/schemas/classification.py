@@ -1,3 +1,5 @@
+from typing import Literal
+
 from pydantic import BaseModel
 
 
@@ -6,4 +8,4 @@ class ClassificationRequest(BaseModel):
 
 
 class ClassificationResponse(BaseModel):
-    category: str
+    category: Literal["positive", "negative", "neutral"]
