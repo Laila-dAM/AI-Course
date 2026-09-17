@@ -1,6 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 from app.config.settings import APP_NAME, APP_DESCRIPTION, APP_VERSION
+from app.providers.exceptions import UnsupportedProviderError
 from app.schemas.classification import ClassificationRequest, ClassificationResponse
 from app.schemas.extraction import ExtractionRequest, ExtractionResponse
 from app.schemas.generation import GenerationRequest, GenerationResponse
@@ -35,9 +36,15 @@ def health():
 
 @app.post("/generate", response_model=GenerationResponse)
 def generate(request: GenerationRequest):
-    result = generate_text(request.prompt)
+    try:
+        result = generate_text(request.prompt)
+        return GenerationResponse(result=result)
 
-    return GenerationResponse(result=result)
+    except UnsupportedProviderError as error:
+        raise HTTPException(
+            status_code=400,
+            detail=str(error)
+        )
 
 
 @app.post("/summarize", response_model=SummarizationResponse)
